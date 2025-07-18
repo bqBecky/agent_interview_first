@@ -1,0 +1,14 @@
+Flask==2.3.2
+Flask-SQLAlchemy==3.0.3
+Flask-Login==0.6.2
+Flask-WTF==1.1.1
+python-dotenv==1.0.0
+PyMySQL==1.0.3
+pdfminer.six==20221105
+python-docx==0.8.11
+openai==0.28.0
+nltk==3.8.1
+spacy==3.6.1
+SpeechRecognition==3.10.0
+moviepy==1.0.3
+Flask-Migrate==4.0.4

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能虚拟面试系统 - 登录/注册</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="left-section">
+            <h1>智能虚拟面试系统</h1>
+            <p>利用先进的人工智能技术，为您提供公平、高效的招聘解决方案。无论是求职者还是招聘者，都能获得卓越体验。</p>
+            <div class="features">
+                <p><i class="fas fa-check-circle"></i> 智能面试分析</p>
+                <p><i class="fas fa-check-circle"></i> 实时表现评估</p>
+                <p><i class="fas fa-check-circle"></i> 个性化反馈报告</p>
+                <p><i class="fas fa-check-circle"></i> 高效招聘流程</p>
+            </div>
+        </div>
+        <div class="right-section">
+            <div class="form-title" id="form-title">账号登录</div>
+
+            <div class="form-container">
+                <div class="form-wrapper" id="form-wrapper">
+                    <!-- 登录表单 -->
+                    <form class="login-form" id="login-form" method="POST" action="{{ url_for('login') }}">
+                        <div class="input-group">
+                            <i class="fas fa-user input-icon"></i>
+                            <input type="text" id="username" name="username" placeholder="请输入用户名" autocomplete="username">
+                            <i class="fas fa-times clear-input" id="clear-username"></i>
+                        </div>
+
+                        <div class="input-group">
+                            <i class="fas fa-lock input-icon"></i>
+                            <input type="password" id="password" name="password" placeholder="请输入密码" autocomplete="current-password">
+                            <i class="fas fa-times clear-input" id="clear-password"></i>
+                            <i class="fas fa-eye-slash password-toggle" id="toggle-password"></i>
+                        </div>
+
+                        <div class="remember-forgot">
+                            <div class="remember-me">
+                                <input type="checkbox" id="remember" name="remember">
+                                <label for="remember">记住账号</label>
+                            </div>
+                            <a href="#" class="forgot-password">忘记密码？</a>
+                        </div>
+
+                        <button type="submit" class="action-btn" id="login-btn">登录</button>
+
+                        <div class="switch-form">
+                            还没有账号？<a id="switch-to-register">立即注册</a>
+                        </div>
+                    </form>
+
+                    <!-- 注册表单 -->
+                    <form class="register-form" id="register-form" method="POST" action="{{ url_for('register') }}">
+                        <div class="input-group">
+                            <i class="fas fa-user input-icon"></i>
+                            <input type="text" id="reg-username" name="username" placeholder="请输入用户名（3-20位字符）" autocomplete="username">
+                            <i class="fas fa-times clear-input" id="clear-reg-username"></i>
+                        </div>
+
+                        <div class="input-group">
+                            <i class="fas fa-envelope input-icon"></i>
+                            <input type="email" id="reg-email" name="email" placeholder="请输入邮箱" autocomplete="email">
+                            <i class="fas fa-times clear-input" id="clear-reg-email"></i>
+                        </div>
+
+                        <div class="input-group">
+                            <i class="fas fa-lock input-icon"></i>
+                            <input type="password" id="reg-password" name="password" placeholder="请输入密码（6-20位字符）" autocomplete="new-password">
+                            <i class="fas fa-times clear-input" id="clear-reg-password"></i>
+                            <i class="fas fa-eye-slash password-toggle" id="toggle-reg-password"></i>
+                        </div>
+
+                        <div class="input-group">
+                            <i class="fas fa-lock input-icon"></i>
+                            <input type="password" id="reg-confirm-password" name="confirm_password" placeholder="请再次输入密码" autocomplete="new-password">
+                            <i class="fas fa-times clear-input" id="clear-reg-confirm-password"></i>
+                            <i class="fas fa-eye-slash password-toggle" id="toggle-reg-confirm-password"></i>
+                        </div>
+
+                        <div class="agreement">
+                            <input type="checkbox" id="agree" name="agree" required>
+                            <label for="agree">我已阅读并同意<a href="#">《用户协议》</a>和<a href="#">《隐私政策》</a></label>
+                        </div>
+
+                        <button type="submit" class="action-btn" id="register-btn">注册</button>
+
+                        <div class="switch-form">
+                            已有账号？<a id="switch-to-login">立即登录</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="form-indicator">
+                <div class="indicator-dot active" data-form="login"></div>
+                <div class="indicator-dot" data-form="register"></div>
+            </div>
+        </div>
+    </div>
+   <div class="alert-container" id="alert-container"></div>
+
+<script>
+    // 显示弹窗函数（更新版）
+    function showAlert(title, message, type) {
+        const container = document.getElementById('alert-container');
+        const alert = document.createElement('div');
+        alert.className = `alert ${type}`;
+
+        // 根据类型设置图标
+        let iconClass;
+        switch(type) {
+            case 'success':
+                iconClass = 'fas fa-check-circle';
+                break;
+            case 'error':
+                iconClass = 'fas fa-exclamation-circle';
+                break;
+            case 'info':
+                iconClass = 'fas fa-info-circle';
+                break;
+            default:
+                iconClass = 'fas fa-bell';
+        }
+
+        alert.innerHTML = `
+            <i class="alert-icon ${iconClass}"></i>
+            <div class="alert-content">
+                <h4>${title}</h4>
+                <p>${message}</p>
+            </div>
+            <button class="close-alert">
+                <i class="fas fa-times"></i>
+            </button>
+        `;
+
+        container.appendChild(alert);
+
+        // 添加关闭按钮事件
+        const closeBtn = alert.querySelector('.close-alert');
+        closeBtn.addEventListener('click', () => {
+            alert.style.animation = 'fadeOut 0.3s forwards';
+            setTimeout(() => {
+                alert.remove();
+            }, 300);
+        });
+
+        // 自动消失
+        setTimeout(() => {
+            if (alert.parentNode) {
+                alert.style.animation = 'fadeOut 0.3s forwards';
+                setTimeout(() => {
+                    alert.remove();
+                }, 300);
+            }
+        }, 3000);
+    }
+
+    // 检查是否有Flash消息
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                {% if category == 'success' %}
+                    showAlert("操作成功", "{{ message }}", "success");
+                {% elif category == 'error' %}
+                    showAlert("操作失败", "{{ message }}", "error");
+                {% else %}
+                    showAlert("系统消息", "{{ message }}", "info");
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</script>
+    <script src="{{ url_for('static', filename='js/login.js') }}"></script>
+</body>
+</html>

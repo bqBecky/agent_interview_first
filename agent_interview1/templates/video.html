@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>视频面试 - 求职助手Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/video.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <!-- 左侧导航栏内容 -->
+        </div>
+
+        <div class="main-content">
+            <div class="function-header">
+                <h2 class="function-title">视频面试模拟</h2>
+                <p class="function-description">模拟真实视频面试环境，AI面试官将根据您的表现提供专业反馈和建议</p>
+            </div>
+
+            <div class="video-container">
+                <div class="video-preview">
+                    <div class="video-placeholder">
+                        <i class="fas fa-video fa-3x"></i>
+                        <p style="margin-top:15px;">视频面试准备中...</p>
+                    </div>
+                    <video id="user-video" autoplay muted style="display:none; width:100%; height:100%; object-fit:cover;"></video>
+                    <video id="ai-video" autoplay style="display:none; width:100%; height:100%; object-fit:cover;"></video>
+                </div>
+
+                <div class="video-controls">
+                    <button class="control-button" id="mic-toggle">
+                        <i class="fas fa-microphone"></i>
+                    </button>
+                    <button class="control-button" id="video-toggle">
+                        <i class="fas fa-video"></i>
+                    </button>
+                    <button class="control-button end" id="end-interview">
+                        <i class="fas fa-phone-alt"></i>
+                    </button>
+                    <button class="control-button" id="settings">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="interview-questions" id="interview-questions" style="display:none;">
+                <h3>面试问题</h3>
+                <div class="question-list" id="question-list"></div>
+                <button class="action-btn" id="start-interview">开始面试</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/video.js') }}"></script>
+</body>
+</html>

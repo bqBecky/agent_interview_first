@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>简历解析 - 求职助手Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/resume.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <!-- 左侧导航栏内容 -->
+        </div>
+
+        <div class="main-content">
+            <div class="function-header">
+                <h2 class="function-title">简历解析与优化</h2>
+                <p class="function-description">上传您的简历，AI将分析并提供优化建议，提高通过率</p>
+            </div>
+
+            <div class="resume-upload-container">
+                <div class="resume-upload" id="drop-zone">
+                    <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                    <h3>拖放简历文件到此处</h3>
+                    <p>或点击选择文件</p>
+                    <input type="file" id="file-input" accept=".pdf,.doc,.docx" style="display:none;">
+                    <button class="upload-btn" id="upload-btn">选择文件</button>
+                </div>
+
+                <div class="supported-formats">
+                    <p>支持格式: PDF, DOC, DOCX</p>
+                </div>
+            </div>
+
+            <div class="resume-result" id="resume-result" style="display:none;">
+                <div class="result-header">
+                    <h3>简历解析结果</h3>
+                    <button class="download-btn" id="download-btn">
+                        <i class="fas fa-download"></i> 下载报告
+                    </button>
+                </div>
+
+                <div class="result-content">
+                    <div class="result-section">
+                        <h4><i class="fas fa-user"></i> 基本信息</h4>
+                        <div class="info-grid" id="basic-info"></div>
+                    </div>
+
+                    <div class="result-section">
+                        <h4><i class="fas fa-graduation-cap"></i> 教育背景</h4>
+                        <div id="education-info"></div>
+                    </div>
+
+                    <div class="result-section">
+                        <h4><i class="fas fa-briefcase"></i> 工作经历</h4>
+                        <div id="experience-info"></div>
+                    </div>
+
+                    <div class="result-section">
+                        <h4><i class="fas fa-code"></i> 技能</h4>
+                        <div class="skills-container" id="skills-info"></div>
+                    </div>
+
+                    <div class="result-section">
+                        <h4><i class="fas fa-lightbulb"></i> AI优化建议</h4>
+                        <div class="suggestions" id="suggestions"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/resume.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>科大讯飞智能面试平台</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <img src="{{ url_for('static', filename='images/index_logo.png') }}" alt="科大讯飞logo">
+                    <span class="team-name">巴拉巴拉队</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#home">首页</a></li>
+                    <li><a href="#features">功能介绍</a></li>
+                    <li class="dropdown">
+                        <a href="#professions">专业岗位 <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-menu">
+                            <a href="#ai" class="dropdown-item">人工智能专业</a>
+                            <a href="#bigdata" class="dropdown-item">大数据专业</a>
+                            <a href="#iot" class="dropdown-item">物联网专业</a>
+                        </div>
+                    </li>
+                    <li><a href="#innovations">创新特色</a></li>
+                    <li><a href="#process">流程简述</a></li>
+                    <li><a href="#contact">联系我们</a></li>
+                </ul>
+                <div class="auth-section">
+                    {% if current_user.is_authenticated %}
+                        <span class="username">{{ current_user.username }}</span>
+                        <a href="{{ url_for('logout') }}"><button class="logout-btn">退出</button></a>
+                    {% else %}
+                        <a href="{{ url_for('login') }}"><button class="login-btn">登录</button></a>
+                    {% endif %}
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 英雄区域 - 智能面试介绍 -->
+    <section class="hero" id="home">
+        <div class="container hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">AI智能面试 <span>新时代的招聘解决方案</span></h1>
+                <p class="hero-text">
+                    科大讯飞智能面试平台利用先进的人工智能技术，为企业提供高效、公平、智能的招聘解决方案。
+                    通过自然语言处理和情感分析，我们的系统能够准确评估候选人能力，节省招聘时间成本，
+                    同时为候选人提供流畅的面试体验。
+                </p>
+                <a href="{% if current_user.is_authenticated %}{{ url_for('interview') }}{% else %}{{ url_for('login') }}{% endif %}" class="hero-btn">开始使用</a>
+            </div>
+            <div class="hero-image">
+                <img src="{{ url_for('static', filename='images/index_hero.avif') }}" alt="AI智能面试">
+            </div>
+        </div>
+    </section>
+
+    <!-- 功能介绍部分 -->
+    <section id="features" class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>功能介绍</h2>
+                <p class="section-subtitle">探索我们强大的智能面试功能</p>
+            </div>
+
+            <div class="feature-container">
+                <div class="feature-navigation">
+                    <div class="feature-tab active" data-tab="resume">
+                        <div class="tab-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div class="tab-content">
+                            <h3>简历解析</h3>
+                            <p>智能分析您的简历内容</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-tab" data-tab="exam">
+                        <div class="tab-icon">
+                            <i class="fas fa-laptop-code"></i>
+                        </div>
+                        <div class="tab-content">
+                            <h3>云笔试</h3>
+                            <p>海量题库在线测试</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-tab" data-tab="interview">
+                        <div class="tab-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="tab-content">
+                            <h3>AI面试</h3>
+                            <p>智能模拟真实面试</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-tab" data-tab="feedback">
+                        <div class="tab-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="tab-content">
+                            <h3>智能反馈</h3>
+                            <p>详细分析面试表现</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feature-content">
+                    <div id="resume" class="feature-desc active">
+                        <div class="media-container">
+                            <img src="https://images.unsplash.com/photo-1586282391129-76a6df230234?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="简历解析" class="feature-media">
+                        </div>
+                        <div class="text-content">
+                            <h3>智能简历解析</h3>
+                            <p>我们的简历解析功能利用自然语言处理技术，深度分析您的简历内容，提供专业建议和优化方案。</p>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check-circle"></i> 多格式支持：PDF、Word、TXT等多种格式</li>
+                                <li><i class="fas fa-check-circle"></i> 智能总结：自动提取关键信息，生成简历摘要</li>
+                                <li><i class="fas fa-check-circle"></i> 专业名词注释：解释行业术语，帮助理解</li>
+                                <li><i class="fas fa-check-circle"></i> 人岗匹配度打分：评估简历与目标岗位的匹配程度</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div id="exam" class="feature-desc">
+                        <div class="media-container">
+                            <video class="feature-media" autoplay loop muted>
+                                <source src="https://example.com/exam-demo.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                        <div class="text-content">
+                            <h3>云笔试平台</h3>
+                            <p>我们的云笔试平台提供海量题库，覆盖各类岗位的专业知识和能力测试。</p>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check-circle"></i> 海量题库：覆盖人工智能、大数据、物联网等热门领域</li>
+                                <li><i class="fas fa-check-circle"></i> 自动判分：即时反馈测试结果</li>
+                                <li><i class="fas fa-check-circle"></i> 薄弱点分析：识别知识盲区，提供学习建议</li>
+                                <li><i class="fas fa-check-circle"></i> 模拟考试：真实考试环境，提前适应笔试节奏</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div id="interview" class="feature-desc">
+                        <div class="media-container">
+                            <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="AI面试" class="feature-media">
+                        </div>
+                        <div class="text-content">
+                            <h3>AI模拟面试</h3>
+                            <p>我们的AI面试系统模拟真实面试场景，提供全方位的面试体验。</p>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check-circle"></i> 因岗设题：根据目标岗位定制面试问题</li>
+                                <li><i class="fas fa-check-circle"></i> 多模态面试：支持视频、语音等多种形式</li>
+                                <li><i class="fas fa-check-circle"></i> 智能追问：根据回答深入提问，模拟真实面试</li>
+                                <li><i class="fas fa-check-circle"></i> 实时分析：评估语言表达、逻辑思维等能力</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div id="feedback" class="feature-desc">
+                        <div class="media-container">
+                            <img src="https://images.unsplash.com/photo-1579389083078-4e7018379f7e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="智能反馈" class="feature-media">
+                        </div>
+                        <div class="text-content">
+                            <h3>智能反馈系统</h3>
+                            <p>我们的智能反馈系统提供详细的面试表现分析，帮助您持续改进。</p>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check-circle"></i> 多维评估：语言表达、专业知识、逻辑思维等多维度评分</li>
+                                <li><i class="fas fa-check-circle"></i> 可视化报告：直观展示面试表现</li>
+                                <li><i class="fas fa-check-circle"></i> 改进建议：针对薄弱环节提供具体建议</li>
+                                <li><i class="fas fa-check-circle"></i> 历史对比：追踪进步情况，见证成长</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 专业岗位展示区 -->
+    <section id="professions" class="section" style="background-color: #f5f7fa;">
+        <div class="container">
+            <div class="section-title">
+                <h2>专业岗位</h2>
+                <p class="section-subtitle">探索各专业领域的核心岗位</p>
+            </div>
+
+            <div class="profession-tabs">
+                <div class="profession-tab active" data-profession="ai">人工智能专业</div>
+                <div class="profession-tab" data-profession="bigdata">大数据专业</div>
+                <div class="profession-tab" data-profession="iot">物联网专业</div>
+            </div>
+
+            <div class="profession-content">
+                <!-- 人工智能专业 -->
+                <div id="ai" class="profession-panel active">
+                    <div class="profession-grid">
+                        <div class="profession-card">
+                            <div class="profession-icon">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <h3>AI算法工程师</h3>
+                            <p>负责机器学习算法研发与优化，构建智能系统核心模型。</p>
+                        </div>
+                        <div class="profession-card">
+                            <div class="profession-icon">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <h3>大模型算法工程师</h3>
+                            <p>专注于大规模预训练模型的研究与应用开发。</p>
+                        </div>
+                        <div class="profession-card">
+                            <div class="profession-icon">
+                                <i class="fas fa-laptop-code"></i>
+                            </div>
+                            <h3>AI应用工程师</h3>
+                            <p>将AI技术落地到实际业务场景，开发智能应用。</p>
+                        </div>
+                        <div class="profession-card">
+                            <div class="profession-icon">
+                                <i class="fas fa-bug"></i>
+                            </div>
+                            <h3>AI测试工程师</h3>
+                            <p>确保AI系统质量，设计测试用例和评估指标。</p>
+                        </div>
+                        <div class="profession-card">
+                            <div class="profession-icon">
+                                <i class="fas fa-tasks"></i>
+                            </div>
+                            <h3>AI产品经理</h3>
+                            <p>规划AI产品路线，协调技术研发与市场需求。</p>
+                        </div>
+                        <div class="profession-card">
+                            <div class="profession-icon">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <h3>AI训练师</h3>
+                            <p>负责数据标注、模型训练与调优工作。</p>
+                        </div>
+                        <div class="profession-card">
+                            <div class="profession-icon">
+                                <i class="fas fa-server"></i>
+                            </div>
+                            <h3>AI运维工程师</h3>
+                            <p>维护AI系统稳定运行，优化部署架构。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 大数据专业 -->
+                <div id="bigdata" class="profession-panel">
+                    <div class="profession-grid">
+                        <div class="profession-card">
+                            <div class="profession-icon">
+                                <i class="fas fa-database"></i>
+                            </div>
+                            <h3>大数据开发工程师</h3>
+                            <p>构建和维护大数据处理平台与数据管道。</p>
+                        </div>
+                        <div class="profession-card">
+                            <div class="profession-icon">
+                                <i class="fas fa-cogs"></i>
+                            </div>
+                            <h3>大数据运维工程师</h3>
+                            <p>保障大数据集群稳定高效运行。</p>
+                        </div>
+                        <div class="profession-card">
+                            <div class="profession-icon">
+                                <i class="fas fa-exchange-alt"></i>
+                            </div>
+                            <h3>ETL工程师</h3>
+                            <p>设计实现数据抽取、转换和加载流程。</p>
+                        </div>
+                        <div class="profession-card">
+                            <div class="profession-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h3>数据分析师</h3>
+                            <p>通过数据分析挖掘业务价值，提供决策支持。</p>
+                        </div>
+                        <div class="profession-card">
+                            <div class="profession-icon">
+                                <i class="fas fa-spider"></i>
+                            </div>
+                            <h3>爬虫工程师</h3>
+                            <p>开发网络爬虫系统，获取结构化数据。</p>
+                        </div>
+                        <div class="profession-card">
+                            <div class="profession-icon">
+                                <i class="fas fa-warehouse"></i>
+                            </div>
+                            <h3>数据仓库工程师</h3>
+                            <p>构建企业级数据仓库，实现数据资产化管理。</p>
+                        </div>
+                        <div class="profession-card">
+                            <div class="profession-icon">
+                                <i class="fas fa-chart-pie"></i>
+                            </div>
+                            <h3>BI工程师</h3>
+                            <p>开发商业智能解决方案，实现数据可视化。</p>
+                        </div>
+                        <div class="profession-card">
+                            <div class="profession-icon">
+                                <i class="fas fa-project-diagram"></i>
+                            </div>
+                            <h3>大数据产品经理</h3>
+                            <p>规划大数据产品，协调技术与业务需求。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 物联网专业 -->
+                <div id="iot" class="profession-panel">
+                    <div class="profession-grid">
+                        <div class="profession-card">
+                            <div class="profession-icon">
+                                <i class="fas fa-microchip"></i>
+                            </div>
+                            <h3>硬件设计师</h3>
+                            <p>设计物联网终端设备硬件电路与结构。</p>
+                        </div>
+                        <div class="profession-card">
+                            <div class="profession-icon">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <h3>嵌入式固件开发工程师</h3>
+                            <p>开发设备底层固件与驱动程序。</p>
+                        </div>
+                        <div class="profession-card">
+                            <div class="profession-icon">
+                                <i class="fas fa-server"></i>
+                            </div>
+                            <h3>后端开发工程师</h3>
+                            <p>构建物联网平台后端服务与API。</p>
+                        </div>
+                        <div class="profession-card">
+                            <div class="profession-icon">
+                                <i class="fas fa-desktop"></i>
+                            </div>
+                            <h3>前端开发工程师</h3>
+                            <p>开发物联网平台前端界面与可视化。</p>
+                        </div>
+                        <div class="profession-card">
+                            <div class="profession-icon">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <h3>应用开发工程师</h3>
+                            <p>开发物联网移动应用与小程序。</p>
+                        </div>
+                        <div class="profession-card">
+                            <div class="profession-icon">
+                                <i class="fas fa-network-wired"></i>
+                            </div>
+                            <h3>系统集成工程师</h3>
+                            <p>整合各类物联网设备与系统。</p>
+                        </div>
+                        <div class="profession-card">
+                            <div class="profession-icon">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <h3>自动化工程师</h3>
+                            <p>设计实现工业自动化控制系统。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 创新特色 -->
+    <section id="innovations" class="section" style="background-color: #f8f9fa;">
+        <div class="container">
+            <div class="section-title">
+                <h2>创新特色</h2>
+            </div>
+            <div class="innovation-grid">
+                <div class="innovation-card">
+                    <div class="innovation-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>多场景覆盖</h3>
+                    <p>支持人工智能、大数据、物联网等典型岗位的面试场景，满足不同行业求职需求。</p>
+                </div>
+                <div class="innovation-card">
+                    <div class="innovation-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3>多模态数据分析</h3>
+                    <p>整合语音、视频、文本多维数据，构建动态量化评测体系，全面评估面试表现。</p>
+                </div>
+                <div class="innovation-card">
+                    <div class="innovation-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h3>智能评测反馈</h3>
+                    <p>自动生成可视化评测反馈报告，直观展示优势与不足，提供改进建议。</p>
+                </div>
+                <div class="innovation-card">
+                    <div class="innovation-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h3>个性化岗位推荐</h3>
+                    <p>根据用户描述和技能评估，智能推荐合适岗位，提高求职效率。</p>
+                </div>
+                <div class="innovation-card">
+                    <div class="innovation-icon">
+                        <i class="fas fa-file-contract"></i>
+                    </div>
+                    <h3>AI简历生成</h3>
+                    <p>根据用户职业选择和岗位需求，自动生成专业可编辑简历，节省求职时间。</p>
+                </div>
+                <div class="innovation-card">
+                    <div class="innovation-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>智能问答系统</h3>
+                    <p>24小时在线解答求职疑问，提供面试技巧和职业发展建议。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 流程简述 -->
+    <section id="process" class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>流程简述</h2>
+                <p class="section-subtitle">简单几步，开启您的智能面试之旅</p>
+            </div>
+            <div class="process-container">
+                <div class="process-track">
+                    <div class="process-line"></div>
+
+                    <div class="process-step">
+                        <div class="step-circle">
+                            <div class="circle-inner">
+                                <i class="fas fa-search"></i>
+                            </div>
+                        </div>
+                        <div class="step-content">
+                            <h3>选择职业方向</h3>
+                            <p>从人工智能、大数据、物联网等热门领域中选择您的目标岗位和职业方向。</p>
+                        </div>
+                    </div>
+
+                    <div class="process-step">
+                        <div class="step-circle">
+                            <div class="circle-inner">
+                                <i class="fas fa-file-upload"></i>
+                            </div>
+                        </div>
+                        <div class="step-content">
+                            <h3>上传简历</h3>
+                            <p>上传您的简历，系统将进行智能解析，提供优化建议和人岗匹配度分析。</p>
+                        </div>
+                    </div>
+
+                    <div class="process-step">
+                        <div class="step-circle">
+                            <div class="circle-inner">
+                                <i class="fas fa-laptop-code"></i>
+                            </div>
+                        </div>
+                        <div class="step-content">
+                            <h3>云笔试测试</h3>
+                            <p>实现与目标岗位相关的专业知识测试，系统自动判分并提供薄弱点分析。</p>
+                        </div>
+                    </div>
+
+                    <div class="process-step">
+                        <div class="step-circle">
+                            <div class="circle-inner">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                        </div>
+                        <div class="step-content">
+                            <h3>AI模拟面试</h3>
+                            <p>通过视频或语音进行模拟面试，系统将根据岗位要求提出相关问题。</p>
+                        </div>
+                    </div>
+
+                    <div class="process-step">
+                        <div class="step-circle">
+                            <div class="circle-inner">
+                                <i class="fas fa-chart-bar"></i>
+                            </div>
+                        </div>
+                        <div class="step-content">
+                            <h3>获取反馈报告</h3>
+                            <p>接收详细的面试表现分析报告，了解优势与不足，获得改进建议。</p>
+                        </div>
+                    </div>
+
+                    <div class="process-step">
+                        <div class="step-circle">
+                            <div class="circle-inner">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                        </div>
+                        <div class="step-content">
+                            <h3>持续提升</h3>
+                            <p>根据反馈报告针对性练习，追踪进步情况，直至达到理想水平。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系我们 -->
+    <section id="contact" class="section contact-section">
+        <div class="contact-bg"></div>
+
+        <div class="container">
+            <div class="section-title">
+                <h2>联系我们</h2>
+                <p class="section-subtitle">让我们开始对话</p>
+            </div>
+
+            <div class="contact-floating-cards">
+                <!-- 联系信息卡片 -->
+                <div class="floating-card info-card">
+                    <div class="card-header">
+                        <h3>联系方式</h3>
+                        <div class="card-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                    </div>
+
+                    <div class="info-grid">
+                        <div class="info-block">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <h4>地址</h4>
+                            <p>安徽省合肥市高新区望江西路666号</p>
+                        </div>
+
+                        <div class="info-block">
+                            <i class="fas fa-phone-alt"></i>
+                            <h4>电话</h4>
+                            <p>0551-65331888</p>
+                        </div>
+
+                        <div class="info-block">
+                            <i class="fas fa-envelope"></i>
+                            <h4>邮箱</h4>
+                            <p>contact@iflytek.com</p>
+                        </div>
+
+                        <div class="info-block">
+                            <i class="fas fa-clock"></i>
+                            <h4>工作时间</h4>
+                            <p>周一至周五: 9:00 - 18:00</p>
+                        </div>
+                    </div>
+
+                    <div class="quick-contact">
+                        <h4>快速联系</h4>
+                        <div class="quick-buttons">
+                            <button class="quick-btn call">
+                                <i class="fas fa-phone"></i>
+                            </button>
+                            <button class="quick-btn email">
+                                <i class="fas fa-envelope"></i>
+                            </button>
+                            <button class="quick-btn chat">
+                                <i class="fas fa-comment-dots"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 联系表单卡片 -->
+                <div class="floating-card form-card">
+                    <div class="card-header">
+                        <h3>发送消息</h3>
+                        <div class="card-icon">
+                            <i class="fas fa-paper-plane"></i>
+                        </div>
+                    </div>
+
+                    <form class="modern-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <input type="text" id="name" required>
+                                <label for="name">姓名</label>
+                                <div class="underline"></div>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="email" id="email" required>
+                                <label for="email">邮箱</label>
+                                <div class="underline"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="text" id="subject" required>
+                            <label for="subject">主题</label>
+                            <div class="underline"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <textarea id="message" required></textarea>
+                            <label for="message">消息内容</label>
+                            <div class="underline"></div>
+                        </div>
+
+                        <button type="submit" class="submit-btn">
+                            <span>发送消息</span>
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="#home">首页</a>
+                <a href="#features">功能介绍</a>
+                <a href="#professions">专业岗位</a>
+                <a href="#innovations">创新特色</a>
+                <a href="#process">流程简述</a>
+                <a href="#contact">联系我们</a>
+                <a href="#">隐私政策</a>
+                <a href="#">服务条款</a>
+            </div>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-weixin"></i></a>
+                <a href="#"><i class="fab fa-weibo"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#"><i class="fab fa-github"></i></a>
+            </div>
+            <p class="copyright">© 2023 科大讯飞智能面试平台 - 巴拉巴拉队. 保留所有权利.</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+</body>
+</html>
